@@ -5,7 +5,7 @@
 #include "util/log.h"
 
 // Drop droppable events above this limit
-#define SC_CONTROL_MSG_QUEUE_LIMIT 60
+#define SC_CONTROL_MSG_QUEUE_LIMIT 120
 
 static void
 sc_controller_receiver_on_ended(struct sc_receiver *receiver, bool error,
