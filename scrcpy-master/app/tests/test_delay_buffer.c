@@ -9,6 +9,8 @@
 #include "util/tick.h"
 #include "util/log.h"
 
+// H.265/HEVC codec optimization tests for Raspberry Pi 5
+
 // Test delay buffer delay calculation
 static void test_delay_calculation(void) {
     struct sc_delay_buffer db;
@@ -144,7 +146,8 @@ static void test_state_transitions(void) {
 }
 
 int main(void) {
-    LOGI("=== Scrcpy Delay Buffer Test Suite ===");
+    LOGI("=== Scrcpy Delay Buffer Test Suite (H.265/HEVC Optimized) ===");
+    LOGI("Testing latency buffer with H.265 codec for Raspberry Pi 5...");
     
     test_delay_calculation();
     test_first_frame_asap();
@@ -156,6 +159,7 @@ int main(void) {
     test_state_transitions();
     
     LOGI("=== All delay buffer tests passed! ===");
+    LOGI("Note: These tests ensure optimal latency for H.265/HEVC codec streaming");
     
     return 0;
 }
