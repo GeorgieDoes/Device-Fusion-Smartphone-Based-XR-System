@@ -268,6 +268,20 @@ if get_option('buildtype') == 'debug'
         ['test_vector', [
             'tests/test_vector.c',
         ]],
+        ['test_delay_buffer', [
+            'tests/test_delay_buffer.c',
+            'src/delay_buffer.c',
+            'src/clock.c',
+            'src/util/tick.c',
+            'src/util/log.c',
+            'src/util/thread.c',
+            'src/util/memory.c',
+        ]],
+        ['test_io_stream', [
+            'tests/test_io_stream.c',
+            'src/util/log.c',
+            'src/util/tick.c',
+        ]],
     ]
 
     foreach t : tests
