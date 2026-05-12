@@ -3,6 +3,8 @@
 #include <assert.h>
 
 #include "util/log.h"
+#include <sys/time.h>
+#include <SDL2/SDL.h>
 
 // Drop droppable events above this limit
 #define SC_CONTROL_MSG_QUEUE_LIMIT 120
@@ -183,6 +185,35 @@ run_controller(void *data) {
     return 0;
 }
 
+static int
+run_xr_ping(void *data) {
+    struct sc_controller *controller = data;
+    float x = 0.1f, y = 0.2f, z = 0.3f;
+    for (;;) {
+        sc_mutex_lock(&controller->mutex);
+        bool stopped = controller->stopped;
+        sc_mutex_unlock(&controller->mutex);
+        if (stopped) break;
+
+        struct timeval tv;
+        gettimeofday(&tv, NULL);
+        uint64_t timestamp = (uint64_t)tv.tv_sec * 1000 + (uint64_t)tv.tv_usec / 1000;
+
+        struct sc_control_msg msg;
+        msg.type = SC_CONTROL_MSG_TYPE_XR_SENSOR_DATA;
+        msg.xr_sensor.timestamp = timestamp;
+        msg.xr_sensor.x = x;
+        msg.xr_sensor.y = y;
+        msg.xr_sensor.z = z;
+        x += 0.01f; y += 0.01f; z += 0.01f;
+        
+        sc_controller_push_msg(controller, &msg);
+
+        SDL_Delay(50); // Ping every 50ms (20 FPS) for testing
+    }
+    return 0;
+}
+
 bool
 sc_controller_start(struct sc_controller *controller) {
     LOGD("Starting controller thread");
@@ -192,6 +223,12 @@ sc_controller_start(struct sc_controller *controller) {
     if (!ok) {
         LOGE("Could not start controller thread");
         return false;
+    }
+
+    ok = sc_thread_create(&controller->ping_thread, run_xr_ping,
+                          "scrcpy-xr", controller);
+    if (!ok) {
+        LOGE("Could not start XR ping thread");
     }
 
     if (!sc_receiver_start(&controller->receiver)) {
@@ -214,5 +251,6 @@ sc_controller_stop(struct sc_controller *controller) {
 void
 sc_controller_join(struct sc_controller *controller) {
     sc_thread_join(&controller->thread, NULL);
+    sc_thread_join(&controller->ping_thread, NULL);
     sc_receiver_join(&controller->receiver);
 }

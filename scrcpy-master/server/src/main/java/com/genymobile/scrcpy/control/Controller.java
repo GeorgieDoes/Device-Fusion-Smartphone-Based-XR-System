@@ -331,6 +331,8 @@ public class Controller implements AsyncProcessor, VirtualDisplayListener {
             case ControlMessage.TYPE_RESET_VIDEO:
                 resetVideo();
                 break;
+            case ControlMessage.TYPE_XR_SENSOR_DATA:
+                break;
             default:
                 // do nothing
         }

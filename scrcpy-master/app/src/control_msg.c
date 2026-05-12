@@ -190,6 +190,12 @@ sc_control_msg_serialize(const struct sc_control_msg *msg, uint8_t *buf) {
         case SC_CONTROL_MSG_TYPE_RESET_VIDEO:
             // no additional data
             return 1;
+        case SC_CONTROL_MSG_TYPE_XR_SENSOR_DATA:
+            sc_write64be(&buf[1], msg->xr_sensor.timestamp);
+            memcpy(&buf[9], &msg->xr_sensor.x, 4);
+            memcpy(&buf[13], &msg->xr_sensor.y, 4);
+            memcpy(&buf[17], &msg->xr_sensor.z, 4);
+            return 21;
         default:
             LOGW("Unknown message type: %u", (unsigned) msg->type);
             return 0;
@@ -317,6 +323,9 @@ sc_control_msg_log(const struct sc_control_msg *msg) {
             break;
         case SC_CONTROL_MSG_TYPE_RESET_VIDEO:
             LOG_CMSG("reset video");
+            break;
+        case SC_CONTROL_MSG_TYPE_XR_SENSOR_DATA:
+            LOG_CMSG("XR Sensor data ping sent");
             break;
         default:
             LOG_CMSG("unknown type: %u", (unsigned) msg->type);

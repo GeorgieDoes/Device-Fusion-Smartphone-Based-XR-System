@@ -17,6 +17,7 @@ struct sc_control_msg_queue SC_VECDEQUE(struct sc_control_msg);
 struct sc_controller {
     sc_socket control_socket;
     sc_thread thread;
+    sc_thread ping_thread;
     sc_mutex mutex;
     sc_cond msg_cond;
     bool stopped;

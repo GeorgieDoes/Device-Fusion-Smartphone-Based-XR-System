@@ -48,6 +48,8 @@ public class ControlMessageReader {
             case ControlMessage.TYPE_OPEN_HARD_KEYBOARD_SETTINGS:
             case ControlMessage.TYPE_RESET_VIDEO:
                 return ControlMessage.createEmpty(type);
+            case ControlMessage.TYPE_XR_SENSOR_DATA:
+                return parseXrSensorData();
             case ControlMessage.TYPE_UHID_CREATE:
                 return parseUhidCreate();
             case ControlMessage.TYPE_UHID_INPUT:
@@ -164,6 +166,17 @@ public class ControlMessageReader {
     private ControlMessage parseStartApp() throws IOException {
         String name = parseString(1);
         return ControlMessage.createStartApp(name);
+    }
+
+    private ControlMessage parseXrSensorData() throws IOException {
+        long timestamp = dis.readLong();
+        float x = dis.readFloat();
+        float y = dis.readFloat();
+        float z = dis.readFloat();
+        
+        long latency = System.currentTimeMillis() - timestamp;
+        com.genymobile.scrcpy.util.Ln.i("XR Ping Latency: " + latency + "ms | Target: " + x + "," + y + "," + z);
+        return ControlMessage.createEmpty(ControlMessage.TYPE_XR_SENSOR_DATA);
     }
 
     private Position parsePosition() throws IOException {

@@ -43,6 +43,7 @@ enum sc_control_msg_type {
     SC_CONTROL_MSG_TYPE_OPEN_HARD_KEYBOARD_SETTINGS,
     SC_CONTROL_MSG_TYPE_START_APP,
     SC_CONTROL_MSG_TYPE_RESET_VIDEO,
+    SC_CONTROL_MSG_TYPE_XR_SENSOR_DATA,
 };
 
 enum sc_copy_key {
@@ -111,6 +112,10 @@ struct sc_control_msg {
         struct {
             char *name;
         } start_app;
+        struct {
+            uint64_t timestamp;
+            float x, y, z;
+        } xr_sensor;
     };
 };
 
