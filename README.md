@@ -1,21 +1,19 @@
-# 🎬 Scrcpy H.265/HEVC Testing Framework for Raspberry Pi 5
+# Scrcpy H.265/HEVC Testing Framework for Raspberry Pi 5
 
 **Complete testing framework for optimizing scrcpy delay and supporting camera/sensor input/output with H.265 codec.**
 
-## ✨ What You Have
-
-✅ **2 Functional Test Files**
+**2 Functional Test Files**
 - `app/tests/test_delay_buffer.c` - Latency optimization (8 tests)
 - `app/tests/test_io_stream.c` - Camera & sensor I/O (8 tests)
 
-✅ **Test Framework**
+**Test Framework**
 - `run_tests.sh` - Easy test runner
 - Integrated with Meson build system
 - H.265/HEVC optimized for Pi 5
 
 ---
 
-## 🚀 Quick Start (5 minutes)
+## Quick Start
 
 ```bash
 cd scrcpy-master
@@ -32,19 +30,19 @@ Expected output:
 
 ---
 
-## 📋 Choose Your Path
+## Documentation
 
 | Path | Time | What to Read |
 |------|------|--------------|
-| **⚡ Quick Start** | 5 min | Run commands above |
-| **🔧 Setup** | 30 min | `SETUP.md` |
-| **📚 Testing** | 1 hour | `TESTING.md` |
-| **⚙️ Optimization** | 2 hours | `OPTIMIZATION.md` |
-| **📖 Reference** | As needed | `REFERENCE.md` |
+| ** Quick Start** | 5 min | Run commands above |
+| ** Setup** | 30 min | `SETUP.md` |
+| ** Testing** | 1 hour | `TESTING.md` |
+| ** Optimization** | 2 hours | `OPTIMIZATION.md` |
+| ** Reference** | As needed | `REFERENCE.md` |
 
 ---
 
-## 🎯 H.265/HEVC Key Benefits
+## H.265/HEVC Key Benefits
 
 - **40-50% better compression** than H.264
 - **50% lower CPU usage** on Raspberry Pi 5
@@ -53,7 +51,7 @@ Expected output:
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 scrcpy-master/
@@ -72,7 +70,7 @@ scrcpy-master/
 
 ---
 
-## 🔍 What Tests Cover
+##  What Tests Cover
 
 ### Delay Buffer Tests (test_delay_buffer.c)
 - Delay calculation accuracy
@@ -96,7 +94,7 @@ scrcpy-master/
 
 ---
 
-## 💡 How to Use
+## How to Use
 
 ### Run Tests
 ```bash
@@ -121,7 +119,7 @@ meson compile -C builddir
 
 ---
 
-## 📚 Documentation Files
+## Documentation Files
 
 - **SETUP.md** - Complete setup, checklist, and troubleshooting
 - **TESTING.md** - Testing framework details and I/O testing
@@ -129,8 +127,6 @@ meson compile -C builddir
 - **REFERENCE.md** - Commands, H.265 details, quick tips
 
 ---
-
-## ✅ Everything is Ready
 
 No additional setup needed. Tests compile and run in **debug mode without full scrcpy build**.
 
