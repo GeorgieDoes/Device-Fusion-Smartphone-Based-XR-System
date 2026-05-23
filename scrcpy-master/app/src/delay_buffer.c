@@ -58,8 +58,9 @@ run_buffering(void *data) {
 
         bool timed_out = false;
         while (!db->stopped && !timed_out) {
+            sc_tick adjusted_delay = (db->delay * 80) / 100;
             sc_tick deadline = sc_clock_to_system_time(&db->clock, pts)
-                             + db->delay;
+                             + adjusted_delay;
             if (deadline > max_deadline) {
                 deadline = max_deadline;
             }

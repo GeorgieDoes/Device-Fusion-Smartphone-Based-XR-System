@@ -225,11 +225,13 @@ sc_controller_start(struct sc_controller *controller) {
         return false;
     }
 
+    /* 
     ok = sc_thread_create(&controller->ping_thread, run_xr_ping,
                           "scrcpy-xr", controller);
     if (!ok) {
         LOGE("Could not start XR ping thread");
     }
+    */
 
     if (!sc_receiver_start(&controller->receiver)) {
         sc_controller_stop(controller);
@@ -251,6 +253,6 @@ sc_controller_stop(struct sc_controller *controller) {
 void
 sc_controller_join(struct sc_controller *controller) {
     sc_thread_join(&controller->thread, NULL);
-    sc_thread_join(&controller->ping_thread, NULL);
+    // sc_thread_join(&controller->ping_thread, NULL);
     sc_receiver_join(&controller->receiver);
 }

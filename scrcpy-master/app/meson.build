@@ -271,6 +271,7 @@ if get_option('buildtype') == 'debug'
         ['test_delay_buffer', [
             'tests/test_delay_buffer.c',
             'src/delay_buffer.c',
+            'src/trait/frame_source.c',
             'src/clock.c',
             'src/util/tick.c',
             'src/util/log.c',

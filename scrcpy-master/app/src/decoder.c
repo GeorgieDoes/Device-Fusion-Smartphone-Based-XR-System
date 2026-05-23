@@ -5,6 +5,7 @@
 #include <libavutil/avutil.h>
 
 #include "util/log.h"
+#define HAVE_V4L2_CODEC 1 // Enable v4l2m2m HEVC decoder for Pi 5 optimization
 
 /** Downcast packet_sink to decoder */
 #define DOWNCAST(SINK) container_of(SINK, struct sc_decoder, packet_sink)

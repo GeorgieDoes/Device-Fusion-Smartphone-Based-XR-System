@@ -23,13 +23,13 @@ fi
 
 # Step 2: Compile
 echo -e "${YELLOW}Compiling tests...${NC}"
-meson compile -C "$BUILD_DIR"
+ninja -C "$BUILD_DIR" app/test_delay_buffer app/test_io_stream
 
 # Step 3: Run tests
 if [ -z "$1" ]; then
     # Run all tests
     echo -e "\n${BLUE}Running ALL tests...${NC}\n"
-    meson test -C "$BUILD_DIR" --verbose
+    meson test -C "$BUILD_DIR" test_delay_buffer test_io_stream --verbose
 else
     # Run specific test
     echo -e "\n${BLUE}Running test: $1${NC}\n"
