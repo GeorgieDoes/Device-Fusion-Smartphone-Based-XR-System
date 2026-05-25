@@ -1,0 +1,4 @@
+[server] INFO: Device: [samsung] samsung SM-S918B (Android 16)
+[server] DEBUG: Using audio encoder: 'c2.android.opus.encoder'
+[server] DEBUG: Using video encoder: 'c2.qti.avc.encoder'
+[server] DEBUG: Display: using DisplayManager API

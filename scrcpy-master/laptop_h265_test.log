@@ -1,0 +1,40 @@
+/home/jojo/Documents/bachelor/Device-Fusion-Smartphone-Based-XR-System/scrcpy-master/scrcpy-server-v3.3.4: 1 file pushed, 0 skipped. 63.5 MB/s (90980 bytes in 0.001s)
+[server] INFO: Device: [samsung] samsung SM-S918B (Android 16)
+ERROR: Could not open icon image: /usr/local/share/icons/hicolor/256x256/apps/scrcpy.png
+WARN: Could not load icon
+[server] DEBUG: Using audio encoder: 'c2.android.opus.encoder'
+[server] DEBUG: Using video encoder: 'c2.qti.hevc.encoder'
+[server] DEBUG: Display: using DisplayManager API
+scrcpy 3.3.4 <https://github.com/Genymobile/scrcpy>
+INFO: ADB device found:
+INFO:     -->   (usb)  R5CW51N0C3X                     device  SM_S918B
+DEBUG: Device serial: R5CW51N0C3X
+DEBUG: Using SCRCPY_SERVER_PATH: /home/jojo/Documents/bachelor/Device-Fusion-Smartphone-Based-XR-System/scrcpy-master/scrcpy-server-v3.3.4
+DEBUG: Server connected
+DEBUG: Starting controller thread
+DEBUG: Starting receiver thread
+DEBUG: Using icon: /usr/local/share/icons/hicolor/256x256/apps/scrcpy.png
+INFO: Renderer: opengl
+INFO: OpenGL version: 4.6 (Compatibility Profile) Mesa 26.1.1-arch2.1
+INFO: Trilinear filtering enabled
+DEBUG: Demuxer 'video': starting thread
+DEBUG: Demuxer 'audio': starting thread
+INFO: Texture: 896x1920
+INFO: FPS counter started
+INFO: 9 fps
+INFO: 30 fps
+INFO: 54 fps
+INFO: 22 fps
+INFO: 48 fps
+INFO: 46 fps
+INFO: 50 fps
+INFO: 38 fps
+INFO: 48 fps
+DEBUG: User requested to quit
+DEBUG: quit...
+DEBUG: Controller stopped
+DEBUG: Demuxer 'audio': end of frames
+DEBUG: Receiver stopped
+DEBUG: Server disconnected
+DEBUG: Server terminated
+DEBUG: Demuxer 'video': end of frames
