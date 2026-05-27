@@ -1,0 +1,7 @@
+Configuration,Resolution,Target_FPS,Actual_FPS,Inter_Frame_Delay_ms,Processing_Latency_ms,Host_CPU_Usage_%,Duration_Sec
+480p_30fps,480p,30,29.19,34.26,64.48,99.8,15
+480p_60fps,480p,60,36.45,27.44,51.63,170.3,15
+720p_30fps,720p,30,26.56,37.65,69.08,151.0,15
+720p_60fps,720p,60,31.84,31.41,53.46,174.0,15
+1080p_30fps,1080p,30,25.16,39.74,72.90,158.5,15
+1080p_60fps,1080p,60,23.29,42.95,61.90,176.7,15
