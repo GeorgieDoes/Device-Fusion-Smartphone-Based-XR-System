@@ -3,7 +3,6 @@
 # Outputs real-world performance metrics to a timestamped CSV file
 
 TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
-CSV_FILE="raw_latency_data_${TIMESTAMP}.csv"
 SCRCPY_BIN="./scrcpy-master/builddir/app/scrcpy"
 SERVER_PATH="$(pwd)/scrcpy-master/scrcpy-server-v3.3.4"
 
@@ -16,7 +15,16 @@ if [ ! -f "$SCRCPY_BIN" ]; then
     exit 1
 fi
 
+echo "Waiting for Android device to connect..."
 adb wait-for-device
+
+# Grab device models and PC hostname to keep logs identifiable
+PC_NAME=$(hostname | tr ' ' '_')
+DEVICE_NAME=$(adb shell getprop ro.product.model | tr -d '\r' | tr ' ' '_')
+DEVICE_NAME=${DEVICE_NAME:-"unknown_device"}
+
+CSV_FILE="raw_latency_data_${PC_NAME}_${DEVICE_NAME}_${TIMESTAMP}.csv"
+
 # Wake up phone just in case
 adb shell input keyevent 224
 
