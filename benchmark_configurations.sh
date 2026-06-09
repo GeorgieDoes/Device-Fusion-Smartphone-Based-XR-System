@@ -85,20 +85,45 @@ for name in "${CONFIG_NAMES[@]}"; do
             # Current process CPU usage (find actual scrcpy process, not the timeout wrapper)
             cpu_val=$(ps -C scrcpy -o %cpu= 2>/dev/null | awk '{s+=$1} END {if (s=="") print 0; else print s}')
             
-            # GPU utilization (supports Nvidia, AMD, Intel depending on available tools)
+            # GPU utilization tracking block
             gpu_val=0
             if command -v nvidia-smi &> /dev/null; then
                 gpu_val=$(nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits | awk '{print $1}' | head -n 1)
             elif ls /sys/class/drm/card*/device/gpu_busy_percent &> /dev/null; then
                 # AMD GPUs (Ryzen Radeon) usually report here
                 gpu_val=$(cat /sys/class/drm/card*/device/gpu_busy_percent 2>/dev/null | sort -nr | head -n1)
+            elif [ -f /sys/kernel/debug/dri/0/v3d_ident ] || [ -f /sys/kernel/debug/dri/1/v3d_ident ]; then
+                # Raspberry Pi 5 / Broadcom VideoCore VII (V3D Driver) GPU utilization tracking
+                # Checks active vs idle runtime periods from the V3D debug stats
+                v3d_path=$(ls -d /sys/kernel/debug/dri/*/v3d_stats 2>/dev/null | head -n 1)
+                if [ ! -z "$v3d_path" ]; then
+                    # Capture jobs running snapshot over a tiny window (approx 100ms) to measure load
+                    jobs_start=$(grep -E "jobs|idle" "$v3d_path" | awk '{print $2}' | paste -sd+ - | bc 2>/dev/null)
+                    sleep 0.1
+                    jobs_end=$(grep -E "jobs|idle" "$v3d_path" | awk '{print $2}' | paste -sd+ - | bc 2>/dev/null)
+                    
+                    # Alternatively, if debugfs reading requires root or returns empty, fall back to clock scaling proxy
+                    if [ -z "$jobs_start" ] || [ "$jobs_start" -eq "$jobs_end" ] 2>/dev/null; then
+                        if command -v vcgencmd &> /dev/null; then
+                            # Uses RPi core clock vs max clock as a load indicator
+                            current_clk=$(vcgencmd measure_clock v3d | awk -F= '{print $2}')
+                            # RPi 5 default max V3D clock is 800MHz-900MHz depending on config (typically 800000000)
+                            # This calculates percentage based on current scale state
+                            gpu_val=$(awk "BEGIN {printf \"%.0f\", ($current_clk / 800000000) * 100}")
+                            [ "$gpu_val" -gt 100 ] && gpu_val=100
+                        fi
+                    else
+                        # Use the difference calculations if data available
+                        gpu_val=$(awk "BEGIN {printf \"%.0f\", (($jobs_end - jobs_start) > 0 ? 50 : 0)}") # Rough activity toggle fallback
+                    fi
+                fi
             elif command -v intel_gpu_top &> /dev/null && [ "$EUID" -eq 0 ]; then
                 # Intel GPUs, but usually needs root
                 gpu_val=$(timeout 1 intel_gpu_top -J 2>/dev/null | grep -i '"Render/3D/0"' -A 1 | grep '"busy"' | grep -o '[0-9.]\+' | head -n 1)
             fi
             
-            # Ensure safe fallback if missing
-            if [ -z "$gpu_val" ]; then
+            # Ensure safe fallback if missing or empty string
+            if [ -z "$gpu_val" ] || ! [[ "$gpu_val" =~ ^[0-9.]+$ ]]; then
                 gpu_val=0
             fi
 
